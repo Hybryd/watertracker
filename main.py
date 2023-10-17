@@ -66,7 +66,7 @@ def update_map(field, geometrie_departements, df_indicators):
                        "Pluviométrie 6 mois": "dryness_resources_severity",
                        }
     
-    m = folium.Map(location=[47, 2.2], zoom_start=6)
+    m = folium.Map(location=[47, 2.2], zoom_start=5.5)
     c = folium.Choropleth(
         geo_data=geometrie_departements,
         name="Sévérité sécheresse",
@@ -81,10 +81,34 @@ def update_map(field, geometrie_departements, df_indicators):
         bins=[-5,-4,-3,-2,2,3,4,5],
         legend_name="Sévérité"
     ).add_to(m)
+    
+    # https://gist.github.com/insightsbees/e563de67f2a3fd1ebdf383288fc5dce4
+    #Add Customized Tooltips to the map
+    feature = folium.features.GeoJson(
+    data=geometrie_departements,
+    name='bulles',
+    smooth_factor=2,
+    style_function=lambda x: {'color':'black','fillColor':'transparent','weight':0},
+    tooltip=folium.features.GeoJsonTooltip(
+        fields=['name', "code"],
+        aliases=["",""], 
+        localize=True,
+        sticky=False,
+        labels=True,
+        style="""
+            background-color: #F0EFEF;
+            border: 1px solid black;
+            border-radius: 1px;
+            box-shadow: 3px;
+        """,
+        max_width=800,),
+            highlight_function=lambda x: {'weight': 0,'fillColor':'grey'},
+        ).add_to(m) 
         
-    folium.GeoJsonTooltip(['name']).add_to(c.geojson)
+    #folium.GeoJsonTooltip(['name']).add_to(c.geojson)
     folium.LayerControl().add_to(m)
-    folium_static(m, width=725, height=725)
+    folium_static(m, width=500, height=500)
+    #folium_static(m)
 
 
 def main():
@@ -178,30 +202,55 @@ def main():
     #############
     # STREAMLIT #
     #############
-
+    st.markdown("""
+        <style>
+        iframe {
+            width: 100%;
+            min-height: 400px;
+            height: 100%:
+        }
+        </style>
+        """, unsafe_allow_html=True)
+        
     st.title('Sécheresse en France')
-    #st.sidebar.title("Filtres")
-    st.sidebar.markdown("## Eaux de surface")
-    if st.sidebar.button("Cours d'eau", type="secondary"):
+
+    tab_1, tab_2 = st.sidebar.tabs(["Indicateurs", "Budget eau"])
+    
+    tab_1.markdown("## Eaux de surface")
+    eau_surface = tab_1.divider()
+    eau_surface_1, eau_surface_2 = eau_surface.columns([1,1])
+    if eau_surface_1.button("Cours d'eau", type="secondary"):
+        st.markdown("Cours d'eau")
         update_map("Cours d'eau", geometrie_departements, df_indicators)
-    if st.sidebar.button("Ruisseaux", type="secondary"):
+        
+    if eau_surface_2.button("Ruisseaux", type="secondary"):
+        st.markdown("Ruisseaux")
         update_map("Ruisseaux", geometrie_departements, df_indicators)
-    #st.sidebar.divider()
-    st.sidebar.markdown("## Eaux souterraines")
-    #html_string =  '<div style="color:blue">&#9632;</div>'
-    #st.markdown(html_string, unsafe_allow_html=True)
-    if st.sidebar.button("Nappes phréatiques", type="secondary"):
+        
+    tab_1.markdown("## Eaux souterraines")
+    eau_souterraine = tab_1.divider()
+    eau_souterraine_1, eau_souterraine_2 = eau_souterraine.columns([1,1])
+    if eau_souterraine_1.button("Nappes phréatiques", type="secondary"):
+        st.markdown("Nappes phréatiques")
         update_map("Nappes phréatiques", geometrie_departements, df_indicators)
-    if st.sidebar.button("Nappes phréatiques profondes", type="secondary"):
+    if eau_souterraine_2.button("Nappes profondes", type="secondary"):
+        st.markdown("Nappes profondes")
         update_map("Nappes phréatiques profondes", geometrie_departements, df_indicators)
-    #st.sidebar.divider()
-    st.sidebar.markdown("## Pluie")
-    if st.sidebar.button("Pluviométrie 30 jours", type="secondary"):
+        
+    tab_1.markdown("## Pluviométrie")
+    pluviometrie = tab_1.divider()
+    pluviometrie_1, pluviometrie_2, pluviometrie_3 = pluviometrie.columns([1,1,1])
+    if pluviometrie_1.button("30 jours", type="secondary"):
+        st.markdown("Pluviométrie 30 jours")
         update_map("Pluviométrie 30 jours", geometrie_departements, df_indicators)
-    if st.sidebar.button("Pluviométrie 3 mois", type="secondary"):
+    if pluviometrie_2.button("3 mois", type="secondary"):
+        st.markdown("Pluviométrie 3 mois")
         update_map("Pluviométrie 3 mois", geometrie_departements, df_indicators)
-    if st.sidebar.button("Pluviométrie 6 mois", type="secondary"):
+    if pluviometrie_3.button("6 mois", type="secondary"):
+        st.markdown("Pluviométrie 6 mois")
         update_map("Pluviométrie 6 mois", geometrie_departements, df_indicators)
+    
+    tab_2.markdown("## TODO")
 
 if __name__ == "__main__":
     main()
