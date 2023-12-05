@@ -8,7 +8,6 @@ import streamlit as st
 from streamlit_folium import folium_static
 
 # For WaterTracker
-# Hybryd-
 # 2023
 
 def api_key():
