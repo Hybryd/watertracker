@@ -1,9 +1,10 @@
 from water_tracker import WaterTracker
 
 def main():
+    api_key = ""
     indicateur = "nappes profondes"
 
-    wt = WaterTracker()
+    wt = WaterTracker(api_key)
     # First:
     #wt.process(indicateur=indicateur)
     

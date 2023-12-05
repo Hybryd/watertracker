@@ -9,8 +9,8 @@ import requests
 from tqdm import tqdm
 
 class WaterTracker():
-    def __init__(self):
-        self.api_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMWFmYmU3NzYxZTZlMjZiZTk2ZTA2MTBkMWRjOTNmYzRlZDE0NDhiN2RjNWU3M2VkZTQyMzllYzE4YWNjODZhYTEzYTFhZDA2NzBjMDgzODAiLCJpYXQiOjE3MDE1NTIxNjIuNzIyNTA1LCJuYmYiOjE3MDE1NTIxNjIuNzIyNTA5LCJleHAiOjE3MDI4NDgxNjIuNzE2ODgsInN1YiI6IjI0OTg0Iiwic2NvcGVzIjpbXX0.Z3oiaHNbelEGc7hdRlrKWsfVcd4M3yxDMzarqqDSsLD2OByRd40C0PXjRn6paUVTFwY0YykR1RUuVrZZTCUWtLkm7nnDCAywTzMrjnnFYgH6Vl0h5HrcJ4ova_vhdDyKsPjE23aqdmXmMnIarnqVbYw9nO2ahn7X5isYQGzr7CdEJT1XqPs762JFid9HWp4i3joC_e4vquFd9bdq3nKFq_00AC7upnsqw798xJgHrQA3AtfiVzQJzJvb12DQXtyU6YFHGk7Bx3x6xmGlUy9-4uCaMLluVJLlcdCT10JyYlWmLRaXIrEPxcQ9FNhf5SsUWHf6wenWSqfvWafUo65tJm3b6pYjr0rQMhxS8NDeg4QRAH2GmKkiIBVAS0TNj7uhiz7eKnHORg4aeW6Bga_HMqdgoQn5zBHrrbrVSvBfhJ6qRdkRXXDMIVSAqp-FI6KUspyg5zL9RVqAbLdhG8IOBKSEywT8xpfh_n44SAdqxxZEM8-itMExe9rV9Cgi1yYQABQrELqxeudiBmwqEqwGdVG1wFCOrFFpfDZpvuUgdfKpM3bxphEmqZSbtzqiOSvUMFPKyJN_Ob2re5Fh7zlkLrPMVWXgBpsRjwtzCvTYSU_nEJJbhiEYVNAjV7qmel6-k2BnwAawi5L3Kt1BSovi2OGR-0b5wU-LJVHm9b8T_P4"
+    def __init__(self, api_key):
+        self.api_key = api_key
         self.data_folder = "data/"
         self.timeseries_folder = self.data_folder+"timeseries/"
         self.df_stations = pd.read_csv(f"{self.data_folder}df_stations.csv")
