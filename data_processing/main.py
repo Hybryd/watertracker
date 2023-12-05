@@ -4,14 +4,13 @@ def main():
     indicateur = "nappes profondes"
 
     wt = WaterTracker()
+    # First:
     #wt.process(indicateur=indicateur)
     
-    # # Then
+    # Then
     wt.load()
     wt.plot_counts_france(indicateur=indicateur)
-    # wt.compute_standardized_indicator_values(indicateur=indicateur, freq="M", scale=3)
-    # wt.aggregate_standardized_indicator_means_last_year(indicateur=indicateur)
-    # wt.save()
+    
 
 if __name__ == "__main__":
     main()

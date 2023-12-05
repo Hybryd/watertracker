@@ -369,6 +369,7 @@ class WaterTracker():
     def process(self, indicateur):
         """
         Loads the timeseries
+        indicateur = "pluviométrie", "nappe", "nappe profonde"
         """
         
         self.load_timeseries_from_files(indicateur=indicateur, min_number_years=15)
